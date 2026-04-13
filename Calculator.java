@@ -55,10 +55,12 @@ public static char toDo ;
     }
     else if(toDo == 'e'){
     try {
-      String[] Cmd = new String[2];
-      Cmd[0] = "kill";
-      Cmd[0]= "1360";
-      Process process = Runtime.getRuntime().exec(Cmd);
+      ArrayList<String> Cmd = new ArrayList<>();
+      Cmd.add("Kill");
+      Cmd.add("-1");
+      Process p = Runtime.getRuntime().exec(Cmd.get(0));
+      ProcessBuilder pb = new ProcessBuilder(Cmd);
+      pb.start();
     } catch (IOException e) {
     }
     }
