@@ -1,16 +1,15 @@
 import java.awt.*;
 public class LearningGUI {
-Frame f;
+Frame f = new Frame("First");
 public static void main(String[] args){
- LearningGUI lg = new LearningGUI();
- lg.f = new Frame("First");
- lg.f.setSize(1080,1920);
- lg.f.setVisible(true);
- Checkbox cb = new Checkbox();
- Button b = new Button("Click Me");
- b.setSize(256,256);
- b.setLocation(256, 540);
- lg.f.add(b);
- lg.f.add(cb);
+LearningGUI l = new LearningGUI();
+Panel p = new Panel();
+p.setLayout(new GridLayout(3,2));
+Button b = new Button("Click Me");
+Checkbox cb = new Checkbox();
+p.add(b);
+p.add(cb);
+l.f.add(p);
+l.f.setVisible(true);
 }
 }
