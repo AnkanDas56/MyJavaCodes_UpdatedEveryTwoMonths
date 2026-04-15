@@ -1,6 +1,11 @@
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import java.util.*;
+
 public class Calculator{
+    static Calculator c = new Calculator();
+    public int callcount=0;
     public static double value , keep ;
     public static double  num1 , num2;
 public static char toDo ;
@@ -82,22 +87,43 @@ public static char toDo ;
         display(); 
         clear(); 
     }
-    public static void disclaimer(){
+
+    public static void compute2(int m1, int m2,char op0){
+        Calculator calc = new Calculator();
+        digit(m1);        
+        binaryOperations(op0); 
+        digit(m2);
+        calc.compute();
+        display(); 
+        clear(); 
+    }
+
+    public void disclaimer(){
     System.out.println("Use the calculator for unlimited times and to terminat it, type 'exit'  in the space to enter numbers to terminate the calculator");
+    this.callcount++;
     }
 
 public static void main(String[] args) {
+    if(c.callcount==0){
         try {
-        disclaimer();
+        c.disclaimer();
         compute2();
             
         } catch (InputMismatchException e) {
             System.err.println("Exited SuccessFully");
             return;
         }
-       
-        Calculator.main(args);
    }
+   else if (c.callcount>=1) {
+           try {
+        compute2();
+            
+        } catch (InputMismatchException e) {
+            System.err.println("Exited SuccessFully");
+            return;
+        }
+   }
+        Calculator.main(args);
+
 }
-
-
+}
