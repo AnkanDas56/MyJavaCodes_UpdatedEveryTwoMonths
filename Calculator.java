@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 public class Calculator{
     public static double value , keep ;
@@ -51,6 +52,9 @@ public static char toDo ;
     else if( toDo=='!'){
         clear();
     }
+    else if(toDo == 'e'){
+    return;
+    }
 }
     public static double display(){
         System.out.println( value);
@@ -83,11 +87,16 @@ public static char toDo ;
     }
 
 public static void main(String[] args) {
+        try {
         disclaimer();
-        
         compute2();
+            
+        } catch (InputMismatchException e) {
+            System.err.println("Exited SuccessFully");
+            return;
+        }
        
-   Calculator.main(args);
+        Calculator.main(args);
    }
 }
 
