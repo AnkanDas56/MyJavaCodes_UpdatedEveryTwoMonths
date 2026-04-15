@@ -1,5 +1,4 @@
-import java.io.IOException;
-import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 public class Calculator{
     public static double value , keep ;
@@ -54,15 +53,7 @@ public static char toDo ;
         clear();
     }
     else if(toDo == 'e'){
-    try {
-      ArrayList<String> Cmd = new ArrayList<>();
-      Cmd.add("Kill");
-      Cmd.add("-1");
-      Process p = Runtime.getRuntime().exec(Cmd.get(0));
-      ProcessBuilder pb = new ProcessBuilder(Cmd);
-      pb.start();
-    } catch (IOException e) {
-    }
+    return;
     }
 }
     public static double display(){
@@ -96,11 +87,16 @@ public static char toDo ;
     }
 
 public static void main(String[] args) {
+        try {
         disclaimer();
-        
         compute2();
+            
+        } catch (InputMismatchException e) {
+            System.err.println("Exited SuccessFully");
+            return;
+        }
        
-   Calculator.main(args);
+        Calculator.main(args);
    }
 }
 
