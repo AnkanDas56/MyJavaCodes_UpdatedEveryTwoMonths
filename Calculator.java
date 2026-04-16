@@ -5,11 +5,16 @@ import java.util.Scanner;
 public class Calculator{
     public static double value , keep ;
     public double  num1 , num2;
-    public static char toDo ;
+    public char toDo ;
+    public int CC=0 ;
+    public int CC2=0;
+    public int CC3=0; 
+
     public void binaryOperations(char op){
         keep = value;
         value = 0 ;
         this.toDo=op;
+        this.CC3++;
     }
     public void add (){
         this.binaryOperations('+');
@@ -31,8 +36,9 @@ public class Calculator{
         keep = 0;
         System.out.println("Cleared and restarting the calculator.");
     }
-    public static void digit(double x){
-        value = value+x;
+    public void digit(double x){
+        this.value = (this.value*10)+x;
+        this.CC2++;
     }
 
     public void compute(){
@@ -55,10 +61,11 @@ public class Calculator{
         clear();
     }
     else if(toDo == 'e'){
+        System.exit(0);
     return;
     }
 }
-    public static double display(){
+    public double display(){
         System.out.println( value);
         return value;
     }
@@ -84,29 +91,59 @@ public class Calculator{
         display(); 
         clear(); 
     }
-    public static void disclaimer(){
+    public void disclaimer(){
     System.out.println("Use the calculator for unlimited times and to terminat it, type 'exit'  in the space to enter numbers to terminate the calculator");
+     this.CC++;
     }
 
 public static void main(String[] args) {
     Calculator calc = new Calculator();
         try {
-        disclaimer();
+        if(calc.CC==0){
+        calc.disclaimer();
         calc.compute2();
-            
+        }
+        else if(calc.CC>=1){
+            calc.compute2();
+        }
         } catch (InputMismatchException e) {
             System.err.println("Exited SuccessFully");
             return;
         }
-       
         Calculator.main(args);
    }
 }
 
 class CalculatorFrame implements ActionListener{
+    Calculator c = new Calculator();
     @Override
     public void actionPerformed(ActionEvent e){
       String s = e.getActionCommand();
-      
+      if(c.CC2==0){
+      int i = Integer.parseInt(s);
+      c.digit((double)i);
+      }
+      else if(c.CC2>=1){
+        char ch = s.charAt(0);
+        c.binaryOperations(ch);
+      }else if(c.CC3>=1){
+        int i = Integer.parseInt(s);
+        c.digit(i);
+        c.compute();
+        c.display();
+      }
+    }
+    public void go(){
+        CalculatorFrame cf = new CalculatorFrame();
+         Frame f = new Frame();
+         Button b;                    
+         Panel bottom = new Panel();
+         for(int i =0;i<=9;i++){
+            b= new Button(Integer.toString(i));
+            bottom.add("East",b);
+         }
+         b = new Button("=");
+         bottom.add(b);
+        f.add("South",bottom);
     }
 }
