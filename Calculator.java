@@ -1,3 +1,7 @@
+import java.awt.event.*;
+import java.awt.*;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -7,27 +11,27 @@ public class Calculator{
     static Calculator c = new Calculator();
     public int callcount=0;
     public static double value , keep ;
-    public static double  num1 , num2;
-public static char toDo ;
-    public static void binaryOperations(char op){
+    public double  num1 , num2;
+    public static char toDo ;
+    public void binaryOperations(char op){
         keep = value;
         value = 0 ;
-        toDo = op ;
+        this.toDo=op;
     }
-    public static void add (){
-        binaryOperations('+');
+    public void add (){
+        this.binaryOperations('+');
     }
-    public static void subtract(){
-        binaryOperations('-');
+    public  void subtract(){
+        this.binaryOperations('-');
     }
-    public static void multiply(){
-        binaryOperations('*');
+    public void multiply(){
+        this.binaryOperations('*');
     }
-    public static void divide(){
-        binaryOperations('/');
+    public void divide(){
+        this.binaryOperations('/');
     }
-    public static void squareOf(){
-      binaryOperations('˜');
+    public void squareOf(){
+        this.binaryOperations('˜');
     }
     public static void clear(){
         value = 0;
@@ -65,7 +69,7 @@ public static char toDo ;
         System.out.println( value);
         return value;
     }
-    public static void compute2(){
+    public void compute2(){
         Calculator calc = new Calculator();
       
         Scanner sc = new Scanner(System.in);
@@ -104,10 +108,13 @@ public static char toDo ;
     }
 
 public static void main(String[] args) {
+    Calculator calc = new Calculator();
     if(c.callcount==0){
         try {
         c.disclaimer();
         compute2();
+        disclaimer();
+        calc.compute2();
             
         } catch (InputMismatchException e) {
             System.err.println("Exited SuccessFully");
@@ -130,5 +137,10 @@ public static void main(String[] args) {
 }
 }
 
-
-
+class CalculatorFrame implements ActionListener{
+    @Override
+    public void actionPerformed(ActionEvent e){
+      String s = e.getActionCommand();
+      
+    }
+}
