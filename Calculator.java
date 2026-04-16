@@ -111,6 +111,7 @@ public static void main(String[] args) {
             
         } catch (InputMismatchException e) {
             System.err.println("Exited SuccessFully");
+            System.exit(-9);
             return;
         }
    }
@@ -120,10 +121,11 @@ public static void main(String[] args) {
             
         } catch (InputMismatchException e) {
             System.err.println("Exited SuccessFully");
+            System.exit(-9);
             return;
         }
    }
-        Calculator.main(args);
+        Calculator.main(args);//This is a recursive  method;
 
 }
 }
