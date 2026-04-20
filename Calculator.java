@@ -1,6 +1,6 @@
-import java.awt.event.*;
 import java.awt.*;
-import java.util.InputMismatchException;
+import java.awt.event.*;
+import javax.swing.*;
 import java.util.*;
 
 public class Calculator{
@@ -117,9 +117,9 @@ public void go() {
 
    //the final line of code in the calculator class the main method
    public static void main(String[] args) {
-       Calculator c = new Calculator();
-       c.go();
-   }
+    Calculator cf = new Calculator();
+    cf.go();
+       }
    }
 
 
@@ -127,32 +127,38 @@ class CalculatorFrame {
 
     public void go(){
         //all required variable declarations
-         Frame f = new Frame();
-         Button b;                    
-         Panel bottom = new Panel();
-         CalcButtonListener cba = new CalcButtonListener(new Calculator());
+         JFrame f = new JFrame();
+         JButton b;                    
+         JPanel bottom = new JPanel();
+         Calculator c = new Calculator();
+         CalcButtonListener cba = new CalcButtonListener(c);
          //the upcoming methods :-
 
         GridLayout mgr = new GridLayout(4,4);
          bottom.setLayout(mgr);
          for(int i =9;i>=0;i--){
-            b= new Button(Integer.toString(i));  b.setActionCommand(Integer.toString(i));
+            b= new JButton(Integer.toString(i));  b.setActionCommand(Integer.toString(i));
             b.addActionListener(cba);
             bottom.add(b);
          }
-         b = new Button("=");
+         b = new JButton("=");
          bottom.add("East",b);
 
-         b= new Button("+");b.setActionCommand("+");b.addActionListener(cba);bottom.add(b);
-         b= new Button("-");b.setActionCommand("-");b.addActionListener(cba);bottom.add(b);
-         b= new Button("*");b.setActionCommand("*");b.addActionListener(cba);bottom.add(b);
-         b= new Button("/");b.setActionCommand("/");b.addActionListener(cba);bottom.add(b);
-         b= new Button("e");b.setActionCommand("e");b.addActionListener(cba);bottom.add(b);
+         b= new JButton("+");b.setActionCommand("+");b.addActionListener(cba);bottom.add(b);
+         b= new JButton("-");b.setActionCommand("-");b.addActionListener(cba);bottom.add(b);
+         b= new JButton("*");b.setActionCommand("*");b.addActionListener(cba);bottom.add(b);
+         b= new JButton("/");b.setActionCommand("/");b.addActionListener(cba);bottom.add(b);
+         b= new JButton("e");b.setActionCommand("e");b.addActionListener(cba);bottom.add(b);
+         bottom.setSize(295,285);
         f.add("South",bottom);
         f.setSize(295, 450);
+        char ch = b.getActionCommand().charAt(0);
+        System.out.println(ch);
         f.setVisible(true);
     }
 }
+
+//the Action Listener for all the buttons in the CalculatorFrame
 class CalcButtonListener implements ActionListener{
     Calculator c ;
     public CalcButtonListener(Calculator c){
@@ -162,28 +168,45 @@ class CalcButtonListener implements ActionListener{
     public void actionPerformed(ActionEvent e){
       String s = e.getActionCommand();
       char ch = s.charAt(0);
+      Double i ;
       if(c.CC2==0){
-      int i = Integer.parseInt(s);
-      c.digit((double)i);
+        try {
+        i = Double.parseDouble(s);
+        c.digit(i);
+        } catch (NumberFormatException f) {
+        }
       }
       else if(ch=='+'){
         c.add();
+        i = Double.parseDouble(s);
+        c.digit(i);
       }else if(ch=='*'){
        c.multiply();
+       i = Double.parseDouble(s);
+        c.digit(i);
       }else if(ch=='/'){
        c.divide();
+       i = Double.parseDouble(s);
+        c.digit(i);
       }else if(ch=='˜'){
         c.squareOf();
+        i = Double.parseDouble(s);
+        c.digit(i);
       }else if(ch=='-'){
         c.subtract();
+        i = Double.parseDouble(s);
+        c.digit(i);
       }else if(ch=='e'){
         c.exit();
       }
       else if(ch=='='){
-        int i = Integer.parseInt(s);
+        try {
+        i = Double.parseDouble(s);
         c.digit(i);
         c.compute();
         c.display();
+        } catch (NumberFormatException f) {
+        }
       }
     }
 }
