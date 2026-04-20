@@ -1,15 +1,10 @@
 import java.awt.event.*;
 import java.awt.*;
 import java.util.InputMismatchException;
-import java.util.Scanner;
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
 import java.util.*;
 
 public class Calculator{
-    public static double value , keep ;
-    public double  num1 , num2;
+    public static double value=0 , keep=0 ;
     public char toDo ;
     public int CC=0 ;
     public int CC2=0;
@@ -17,9 +12,10 @@ public class Calculator{
 
     public void binaryOperations(char op){
         keep = value;
-        value = 0 ;
+        value = 0;
         this.toDo=op;
         this.CC3++;
+        this.CC2++;
     }
     public void add (){
         this.binaryOperations('+');
@@ -36,6 +32,9 @@ public class Calculator{
     public void squareOf(){
         this.binaryOperations('˜');
     }
+    public void exit(){
+        this.binaryOperations('e');
+    }
     public static void clear(){
         value = 0;
         keep = 0;
@@ -43,26 +42,25 @@ public class Calculator{
     }
     public void digit(double x){
         this.value = (this.value*10)+x;
-        this.CC2++;
     }
 
     public void compute(){
-    if (toDo == '+'){
+    if (this.toDo == '+'){
         value = keep + value;
     }
-    else if (toDo == '-'){
+    else if (this.toDo == '-'){
         value = keep - value;
     }
-    else if (toDo == '*'){
+    else if (this.toDo == '*'){
         value = keep * value; 
     }
-    else if (toDo == '/'){
+    else if (this.toDo == '/'){
         value = keep / value;
     }
-    else if( toDo == '˜'){
+    else if( this.toDo == '˜'){
         value = keep*keep;
     }
-    else if( toDo=='!'){
+    else if( this.toDo=='!'){
         clear();
     }
     else if(toDo == 'e'){
@@ -75,53 +73,52 @@ public class Calculator{
         return value;
     }
     public void compute2(){
-        Calculator calc = new Calculator();
       
         Scanner sc = new Scanner(System.in);
-        num1 = sc.nextDouble();
-        double m1 = num1 ;
+        double m1 =sc.nextDouble();
 
         Scanner sc3 = new Scanner(System.in);
         char op0 = sc3.next().charAt(0);
 
         Scanner sc2 = new Scanner(System.in);  
-        num2 = sc2.nextDouble();
-        double m2 = (double) num2 ;
+        double m2 = sc.nextDouble();
        
     
-        digit(m1);        
-        binaryOperations(op0); 
-        digit(m2);
-        calc.compute();
-        display(); 
+        this.digit(m1);        
+        this.binaryOperations(op0); 
+        this.digit(m2);
+        this.compute();
+        this.display(); 
         clear(); 
     }
 
 
     public void disclaimer(){
-    System.out.println("Use the calculator for unlimited times and to terminat it, type 'exit'  in the space to enter numbers to terminate the calculator");
+    System.out.println("Use the calculator for unlimited times and to terminat it, type 'e'");
      this.CC++;
     }
 
-public static void main(String[] args) {
-    Calculator calc = new Calculator();
-        try {
-        calc.disclaimer();
-        calc.compute2();
-        calc.disclaimer();
-        if(calc.CC==0){
-        calc.disclaimer();
-        calc.compute2();
+public void go() {
+     try {
+        if(this.CC==0){
+        this.disclaimer();
+        this.compute2();
         }
-        else if(calc.CC>=1){
-            calc.compute2();
+        else if(this.CC>=1){
+            this.compute2();
         }
         } catch (InputMismatchException e) {
             System.err.println("Exited SuccessFully");
-            System.exit(-9);
+            System.exit(0);
             return;
         }
-        Calculator.main(args);//This is a recursive  method;
+        this.go();
+   }
+
+   //the final line of code in the calculator class the main method
+   public static void main(String[] args) {
+       Calculator c = new Calculator();
+       c.go();
    }
    }
 
@@ -129,33 +126,60 @@ public static void main(String[] args) {
 class CalculatorFrame {
 
     public void go(){
-        CalculatorFrame cf = new CalculatorFrame();
+        //all required variable declarations
          Frame f = new Frame();
          Button b;                    
          Panel bottom = new Panel();
-         for(int i =0;i<=9;i++){
-            b= new Button(Integer.toString(i));
-            b.addActionListener(new CalcButtonAction());
-            bottom.add("East",b);
+         CalcButtonListener cba = new CalcButtonListener(new Calculator());
+         //the upcoming methods :-
+
+        GridLayout mgr = new GridLayout(4,4);
+         bottom.setLayout(mgr);
+         for(int i =9;i>=0;i--){
+            b= new Button(Integer.toString(i));  b.setActionCommand(Integer.toString(i));
+            b.addActionListener(cba);
+            bottom.add(b);
          }
          b = new Button("=");
-         bottom.add(b);
+         bottom.add("East",b);
+
+         b= new Button("+");b.setActionCommand("+");b.addActionListener(cba);bottom.add(b);
+         b= new Button("-");b.setActionCommand("-");b.addActionListener(cba);bottom.add(b);
+         b= new Button("*");b.setActionCommand("*");b.addActionListener(cba);bottom.add(b);
+         b= new Button("/");b.setActionCommand("/");b.addActionListener(cba);bottom.add(b);
+         b= new Button("e");b.setActionCommand("e");b.addActionListener(cba);bottom.add(b);
         f.add("South",bottom);
+        f.setSize(295, 450);
+        f.setVisible(true);
     }
 }
-class CalcButtonAction implements ActionListener{
-    Calculator c = new Calculator();
+class CalcButtonListener implements ActionListener{
+    Calculator c ;
+    public CalcButtonListener(Calculator c){
+    this.c = c;
+    }
     @Override
     public void actionPerformed(ActionEvent e){
       String s = e.getActionCommand();
+      char ch = s.charAt(0);
       if(c.CC2==0){
       int i = Integer.parseInt(s);
       c.digit((double)i);
       }
-      else if(c.CC2>=1){
-        char ch = s.charAt(0);
-        c.binaryOperations(ch);
-      }else if(c.CC3>=1){
+      else if(ch=='+'){
+        c.add();
+      }else if(ch=='*'){
+       c.multiply();
+      }else if(ch=='/'){
+       c.divide();
+      }else if(ch=='˜'){
+        c.squareOf();
+      }else if(ch=='-'){
+        c.subtract();
+      }else if(ch=='e'){
+        c.exit();
+      }
+      else if(ch=='='){
         int i = Integer.parseInt(s);
         c.digit(i);
         c.compute();
