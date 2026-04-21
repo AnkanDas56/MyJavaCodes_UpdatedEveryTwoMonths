@@ -117,13 +117,13 @@ public void go() {
 
    //the final line of code in the calculator class the main method
    public static void main(String[] args) {
-    Calculator cf = new Calculator();
+    Calculator cf = new CalculatorFrame();
     cf.go();
        }
    }
 
 
-class CalculatorFrame {
+class CalculatorFrame extends Calculator {
 
     public void go(){
         //all required variable declarations
@@ -152,8 +152,6 @@ class CalculatorFrame {
          bottom.setSize(295,285);
         f.add("South",bottom);
         f.setSize(295, 450);
-        char ch = b.getActionCommand().charAt(0);
-        System.out.println(ch);
         f.setVisible(true);
     }
 }
@@ -169,44 +167,34 @@ class CalcButtonListener implements ActionListener{
       String s = e.getActionCommand();
       char ch = s.charAt(0);
       Double i ;
-      if(c.CC2==0){
         try {
         i = Double.parseDouble(s);
         c.digit(i);
         } catch (NumberFormatException f) {
+
         }
-      }
-      else if(ch=='+'){
+       if(ch=='+'&&c.CC2>=1){
         c.add();
-        i = Double.parseDouble(s);
-        c.digit(i);
+        
       }else if(ch=='*'){
        c.multiply();
-       i = Double.parseDouble(s);
-        c.digit(i);
+        
       }else if(ch=='/'){
        c.divide();
-       i = Double.parseDouble(s);
-        c.digit(i);
+        
       }else if(ch=='˜'){
         c.squareOf();
-        i = Double.parseDouble(s);
-        c.digit(i);
+        
       }else if(ch=='-'){
         c.subtract();
-        i = Double.parseDouble(s);
-        c.digit(i);
+        
       }else if(ch=='e'){
         c.exit();
+        System.exit(0);
       }
       else if(ch=='='){
-        try {
-        i = Double.parseDouble(s);
-        c.digit(i);
         c.compute();
         c.display();
-        } catch (NumberFormatException f) {
-        }
       }
     }
 }
