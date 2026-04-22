@@ -126,40 +126,51 @@ public void go() {
 class CalculatorFrame extends Calculator {
 
     public void go(){
+
         //all required variable declarations
+         Calculator c = new Calculator();
+
+         //The components
          JFrame f = new JFrame();
          JButton b;                    
          JPanel bottom = new JPanel();
-         Calculator c = new Calculator();
-         CalcButtonListener cba = new CalcButtonListener(c);
-         //the upcoming methods :-
+         JPanel top = new JPanel();
+         JTextArea jta = new JTextArea(3,90);
 
+         //The Listeners
+         CalcOpButtonListener cobl = new CalcOpButtonListener(c);
+         CalcNumButtonListener cnbl = new CalcNumButtonListener(c);
+
+         //the upcoming methods :-
+        jta.setText("What are you doing here");
+        top.add("North",jta);
         GridLayout mgr = new GridLayout(4,4);
          bottom.setLayout(mgr);
          for(int i =9;i>=0;i--){
             b= new JButton(Integer.toString(i));  b.setActionCommand(Integer.toString(i));
-            b.addActionListener(cba);
+            b.addActionListener(cnbl);
             bottom.add(b);
          }
          b = new JButton("=");
          bottom.add("East",b);
 
-         b= new JButton("+");b.setActionCommand("+");b.addActionListener(cba);bottom.add(b);
-         b= new JButton("-");b.setActionCommand("-");b.addActionListener(cba);bottom.add(b);
-         b= new JButton("*");b.setActionCommand("*");b.addActionListener(cba);bottom.add(b);
-         b= new JButton("/");b.setActionCommand("/");b.addActionListener(cba);bottom.add(b);
-         b= new JButton("e");b.setActionCommand("e");b.addActionListener(cba);bottom.add(b);
+         b= new JButton("+");b.setActionCommand("+");b.addActionListener(cobl);bottom.add(b);
+         b= new JButton("-");b.setActionCommand("-");b.addActionListener(cobl);bottom.add(b);
+         b= new JButton("*");b.setActionCommand("*");b.addActionListener(cobl);bottom.add(b);
+         b= new JButton("/");b.setActionCommand("/");b.addActionListener(cobl);bottom.add(b);
+         b= new JButton("e");b.setActionCommand("e");b.addActionListener(cobl);bottom.add(b);
          bottom.setSize(295,285);
         f.add("South",bottom);
+        f.add("North",top);
         f.setSize(295, 450);
         f.setVisible(true);
     }
 }
 
 //the Action Listener for all the buttons in the CalculatorFrame
-class CalcButtonListener implements ActionListener{
+class CalcNumButtonListener implements ActionListener{
     Calculator c ;
-    public CalcButtonListener(Calculator c){
+    public CalcNumButtonListener(Calculator c){
     this.c = c;
     }
     @Override
@@ -171,9 +182,20 @@ class CalcButtonListener implements ActionListener{
         i = Double.parseDouble(s);
         c.digit(i);
         } catch (NumberFormatException f) {
-
-        }
-       if(ch=='+'&&c.CC2>=1){
+        System.out.println();
+    }
+}
+}
+class CalcOpButtonListener implements ActionListener{
+    Calculator c;
+    public CalcOpButtonListener (Calculator calc){
+    this.c = calc;
+    }
+    @Override
+    public void actionPerformed(ActionEvent e){
+        char ch = e.getActionCommand().charAt(0);
+        System.out.println(ch);
+    if(ch=='+'&&c.CC2>=1){
         c.add();
         
       }else if(ch=='*'){
@@ -194,7 +216,7 @@ class CalcButtonListener implements ActionListener{
       }
       else if(ch=='='){
         c.compute();
-        c.display();
+        System.out.println(c.display() +" "+c.value);
       }
     }
 }

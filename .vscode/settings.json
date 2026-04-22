@@ -2,5 +2,6 @@
     "jdk.advanced.disable.nbjavac": false,
     "CodeGPT.apiKey": "Ollama",
     "workbench.statusBar.visible": true,
-    "jdk.jdkhome":"/Library/Java/JavaVirtualMachines/jdk-25.jdk/Contents/Home"
+    "jdk.jdkhome":"/Library/Java/JavaVirtualMachines/jdk-25.jdk/Contents/Home",
+    "editor.autoClosingQuotes": "always"
 }
