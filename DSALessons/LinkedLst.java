@@ -10,8 +10,7 @@ public  class LinkedLst{
   Node(Object data) {
   this.data = data;
   this.next = null;
-  }
- }
+ }}
 
   void addFirst(Node newNode){
     if(this.head== null){
@@ -31,9 +30,31 @@ public  class LinkedLst{
    while(currNode.next != null){
     currNode = currNode.next;
    }
-   currNode.next = newNode;
+   newNode = currNode.next;
    newNode.prev = currNode;
    }
+
+  void addAtIndex(Node newNode, int index){
+   Node currNode = this.head;
+   int i = 0;
+   int tar = index-1;
+   if(tar==-1){
+    Node temp1 = this.head;
+    this.head = newNode;
+    this.head.next = temp1;
+    temp1.prev = newNode;
+   }else if (tar!=1){
+   while(i!=tar){
+    currNode = currNode.next;
+    i++;
+   }
+   Node temp = currNode.next;
+   currNode.next = newNode;
+   newNode.prev = currNode;
+   newNode.next = temp;
+   temp.prev = newNode;
+   }
+  }       
 
   public void printList(){
    Node currNode = this.head;
@@ -42,7 +63,7 @@ public  class LinkedLst{
     out.print(currNode.data);
     break;
   }
-  out.print(currNode.data+" -> ");
+  out.print(currNode.data+" ");
     currNode = currNode.next;
    }
    }
@@ -67,16 +88,10 @@ public  class LinkedLst{
       ll.push("Holla");
       ll.push(256);
       ll.push("james");
-    while(ll.head!= null){
+      ll.addAtIndex(new Node(2),1);
       ll.printList();
-      out.println();
-      if(ll.head.next.next == null){
-        out.print(ll.head.prev.next.data);        
-        break;
-      }
-      ll.remove();
 
 
   }
    }
-  }
+  
