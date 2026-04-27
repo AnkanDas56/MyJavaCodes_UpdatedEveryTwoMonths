@@ -35,7 +35,7 @@ public class Calculator{
     public void exit(){
         this.binaryOperations('e');
     }
-    public static void clear(){
+    public void clear(){
         value = 0;
         keep = 0;
         System.out.println("Cleared and restarting the calculator.");
@@ -124,36 +124,36 @@ public void go() {
 
 
 class CalculatorFrame extends Calculator {
+        JTextArea jta = new JTextArea(3,90);
 
     public void go(){
 
         //all required variable declarations
-         Calculator c = new Calculator();
+         Calculator c = new CalculatorFrame();
 
          //The components
          JFrame f = new JFrame();
          JButton b;                    
          JPanel bottom = new JPanel();
          JPanel top = new JPanel();
-         JTextArea jta = new JTextArea(3,90);
+         this.jta.setEditable(true);
+        this.jta.append("HelloWorld");
 
          //The Listeners
          CalcOpButtonListener cobl = new CalcOpButtonListener(c);
          CalcNumButtonListener cnbl = new CalcNumButtonListener(c);
 
          //the upcoming methods :-
-        jta.setText("What are you doing here");
         top.add("North",jta);
-        GridLayout mgr = new GridLayout(4,4);
+        GridLayout mgr = new GridLayout(4,5);
          bottom.setLayout(mgr);
          for(int i =9;i>=0;i--){
-            b= new JButton(Integer.toString(i));  b.setActionCommand(Integer.toString(i));
+            b= new JButton(Integer.toString(i));b.setActionCommand(Integer.toString(i));
             b.addActionListener(cnbl);
-            bottom.add(b);
+            bottom.add("West",b);
          }
-         b = new JButton("=");
-         bottom.add("East",b);
-
+         b=new JButton("C");b.setActionCommand("C");b.addActionListener(cobl);bottom.add(b);
+         b= new JButton("=");b.setActionCommand("=");b.addActionListener(cobl);bottom.add("East",b);
          b= new JButton("+");b.setActionCommand("+");b.addActionListener(cobl);bottom.add(b);
          b= new JButton("-");b.setActionCommand("-");b.addActionListener(cobl);bottom.add(b);
          b= new JButton("*");b.setActionCommand("*");b.addActionListener(cobl);bottom.add(b);
@@ -165,9 +165,15 @@ class CalculatorFrame extends Calculator {
         f.setSize(295, 450);
         f.setVisible(true);
     }
+    @Override
+    public double display(){
+    this.jta.append("HelloWorld ");
+    System.out.println(this.value);
+    return this.value;
+    }
 }
 
-//the Action Listener for all the buttons in the CalculatorFrame
+//the Action Listener for all the number buttons in the CalculatorFrame
 class CalcNumButtonListener implements ActionListener{
     Calculator c ;
     public CalcNumButtonListener(Calculator c){
@@ -178,12 +184,10 @@ class CalcNumButtonListener implements ActionListener{
       String s = e.getActionCommand();
       char ch = s.charAt(0);
       Double i ;
-        try {
         i = Double.parseDouble(s);
         c.digit(i);
-        } catch (NumberFormatException f) {
-        System.out.println();
-    }
+    
+
 }
 }
 class CalcOpButtonListener implements ActionListener{
@@ -196,27 +200,30 @@ class CalcOpButtonListener implements ActionListener{
         char ch = e.getActionCommand().charAt(0);
         System.out.println(ch);
     if(ch=='+'&&c.CC2>=1){
-        c.add();
+        this.c.add();
         
       }else if(ch=='*'){
-       c.multiply();
+       this.c.multiply();
         
       }else if(ch=='/'){
-       c.divide();
+       this.c.divide();
         
       }else if(ch=='˜'){
-        c.squareOf();
+        this.c.squareOf();
         
       }else if(ch=='-'){
-        c.subtract();
+        this.c.subtract();
         
       }else if(ch=='e'){
-        c.exit();
+        this.c.exit();
         System.exit(0);
       }
       else if(ch=='='){
-        c.compute();
-        System.out.println(c.display() +" "+c.value);
+        this.c.compute();
+        this.c.display();
+      }
+      else if (ch=='C'){
+      this.c.clear();
       }
     }
 }

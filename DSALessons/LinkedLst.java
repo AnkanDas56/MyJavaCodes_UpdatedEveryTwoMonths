@@ -1,15 +1,39 @@
 import com.sun.net.httpserver.Headers;
 import static java.lang.System.*;
-public  class LinkedLst{
+public  class LinkedLst<Whatever extends Object>{
+  @Override
+  public String toString(){
+  StringBuilder s= new StringBuilder("[");
+  Node currNode = this.head;
+  String str ;
+  while(currNode.next!=null){
+    s.append(currNode.toString());
+    s.append(" ");
+    if(currNode.next.next==null){
+      s.append(currNode.next);
+    }
+    currNode = currNode.next;
+  }
+  s.append("]");
+  str = s.toString();
+  return str;
+
+  }
  private Node head;
-  static class Node{
+
+ //the node class
+  class Node{
    Node next;
-   Object data;
+   Whatever data;
    Node prev;
- 
-  Node(Object data) {
+   @Override
+   public String toString(){
+    return this.data.toString();
+   }
+  Node(Whatever data) {
   this.data = data;
   this.next = null;
+  this.prev = null;
  }}
 
   void addFirst(Node newNode){
@@ -60,7 +84,8 @@ public  class LinkedLst{
    Node currNode = this.head;
  while(currNode != null){
   if(currNode.next == null){
-    out.print(currNode.data);
+    Object obj = (Object)currNode.data;
+    out.print(obj);
     break;
   }
   out.print(currNode.data+" ");
@@ -74,11 +99,14 @@ public  class LinkedLst{
    this.head = newNode;
    }
    
-   public void push(Object item){
+   public void push(Whatever item){
     Node newNode = new Node(item);
     this.addFirst(newNode);
    }
-
+   public void push(Whatever item,int index){
+    Node newNode = new Node(item);
+    this.addAtIndex(newNode, index);
+   }
    public void pop(){
     this.remove();
    }
@@ -88,10 +116,9 @@ public  class LinkedLst{
       ll.push("Holla");
       ll.push(256);
       ll.push("james");
-      ll.addAtIndex(new Node(2),1);
-      ll.printList();
-
-
-  }
+      ll.push("What are you Looking at here man?",1);
+      System.out.println(ll);
+      
    }
+}
   
