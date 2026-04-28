@@ -93,10 +93,20 @@ public  class LinkedLst<Whatever extends Object>{
    }
    }
    
-   public void remove(){
+   public void removeFirst(){
+  Node temp = this.head;
    Node newNode = this.head.next;
    this.head = null;
+   temp = null;
    this.head = newNode;
+   }
+   public void removeLast(){
+    Node LastNode=this.head;
+    while(LastNode.next!=null){
+      LastNode = LastNode.next;
+    }
+    LastNode = LastNode.prev;
+    LastNode.next = null;
    }
    
    public void push(Whatever item){
@@ -107,16 +117,20 @@ public  class LinkedLst<Whatever extends Object>{
     Node newNode = new Node(item);
     this.addAtIndex(newNode, index);
    }
-   public void pop(){
-    this.remove();
+   public Node pop(){
+    Node reNode = this.head;
+    this.removeFirst();
+    return reNode;
    }
    
   public static void main(String[] args) {
-      LinkedLst ll = new LinkedLst();
+      LinkedLst<Object> ll = new LinkedLst<>();
       ll.push("Holla");
       ll.push(256);
       ll.push("james");
       ll.push("What are you Looking at here man?",1);
+      System.out.println(ll);
+      ll.removeLast();
       System.out.println(ll);
       
    }
