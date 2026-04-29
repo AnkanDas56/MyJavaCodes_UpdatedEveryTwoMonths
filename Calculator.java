@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.util.*;
 
 public class Calculator{
-    public static double value=0 , keep=0 ;
+    public double value=0 , keep=0 ;
     public char toDo ;
     public int CC=0 ;
     public int CC2=0;
@@ -36,8 +36,8 @@ public class Calculator{
         this.binaryOperations('e');
     }
     public void clear(){
-        value = 0;
-        keep = 0;
+        this.value = 0;
+        this.keep = 0;
         System.out.println("Cleared and restarting the calculator.");
     }
     public void digit(double x){
@@ -126,7 +126,7 @@ public void go() {
 class CalculatorFrame extends Calculator {
         JTextArea jta = new JTextArea(3,90);
 
-    public void go(){
+        public void go(){
 
         //all required variable declarations
          Calculator c = new CalculatorFrame();
@@ -171,6 +171,11 @@ class CalculatorFrame extends Calculator {
     System.out.println(this.value);
     return this.value;
     }
+    @Override 
+    public void clear(){
+        this.value = 0;
+        this.keep =0;
+    }
 }
 
 //the Action Listener for all the number buttons in the CalculatorFrame
@@ -182,11 +187,10 @@ class CalcNumButtonListener implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e){
       String s = e.getActionCommand();
-      char ch = s.charAt(0);
       Double i ;
-        i = Double.parseDouble(s);
-        c.digit(i);
-    
+        i = Double.valueOf(s);
+        this.c.digit(i);
+        this.c.display();
 
 }
 }
@@ -221,6 +225,7 @@ class CalcOpButtonListener implements ActionListener{
       else if(ch=='='){
         this.c.compute();
         this.c.display();
+        this.c.clear();
       }
       else if (ch=='C'){
       this.c.clear();
