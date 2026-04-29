@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.util.*;
 
 public class Calculator{
-    public static double value=0 , keep=0 ;
+    public double value=0 , keep=0 ;
     public char toDo ;
     public int CC=0 ;
     public int CC2=0;
@@ -35,9 +35,9 @@ public class Calculator{
     public void exit(){
         this.binaryOperations('e');
     }
-    public static void clear(){
-        value = 0;
-        keep = 0;
+    public void clear(){
+        this.value = 0;
+        this.keep = 0;
         System.out.println("Cleared and restarting the calculator.");
     }
     public void digit(double x){
@@ -124,77 +124,111 @@ public void go() {
 
 
 class CalculatorFrame extends Calculator {
+        JTextArea jta = new JTextArea(3,90);
 
-    public void go(){
+        public void go(){
+
         //all required variable declarations
+         Calculator c = new CalculatorFrame();
+
+         //The components
          JFrame f = new JFrame();
          JButton b;                    
          JPanel bottom = new JPanel();
-         Calculator c = new Calculator();
-         CalcButtonListener cba = new CalcButtonListener(c);
-         //the upcoming methods :-
+         JPanel top = new JPanel();
+         this.jta.setEditable(true);
+        this.jta.append("HelloWorld");
 
-        GridLayout mgr = new GridLayout(4,4);
+         //The Listeners
+         CalcOpButtonListener cobl = new CalcOpButtonListener(c);
+         CalcNumButtonListener cnbl = new CalcNumButtonListener(c);
+
+         //the upcoming methods :-
+        top.add("North",jta);
+        GridLayout mgr = new GridLayout(4,5);
          bottom.setLayout(mgr);
          for(int i =9;i>=0;i--){
-            b= new JButton(Integer.toString(i));  b.setActionCommand(Integer.toString(i));
-            b.addActionListener(cba);
-            bottom.add(b);
+            b= new JButton(Integer.toString(i));b.setActionCommand(Integer.toString(i));
+            b.addActionListener(cnbl);
+            bottom.add("West",b);
          }
-         b = new JButton("=");
-         bottom.add("East",b);
-
-         b= new JButton("+");b.setActionCommand("+");b.addActionListener(cba);bottom.add(b);
-         b= new JButton("-");b.setActionCommand("-");b.addActionListener(cba);bottom.add(b);
-         b= new JButton("*");b.setActionCommand("*");b.addActionListener(cba);bottom.add(b);
-         b= new JButton("/");b.setActionCommand("/");b.addActionListener(cba);bottom.add(b);
-         b= new JButton("e");b.setActionCommand("e");b.addActionListener(cba);bottom.add(b);
+         b=new JButton("C");b.setActionCommand("C");b.addActionListener(cobl);bottom.add(b);
+         b= new JButton("=");b.setActionCommand("=");b.addActionListener(cobl);bottom.add("East",b);
+         b= new JButton("+");b.setActionCommand("+");b.addActionListener(cobl);bottom.add(b);
+         b= new JButton("-");b.setActionCommand("-");b.addActionListener(cobl);bottom.add(b);
+         b= new JButton("*");b.setActionCommand("*");b.addActionListener(cobl);bottom.add(b);
+         b= new JButton("/");b.setActionCommand("/");b.addActionListener(cobl);bottom.add(b);
+         b= new JButton("e");b.setActionCommand("e");b.addActionListener(cobl);bottom.add(b);
          bottom.setSize(295,285);
         f.add("South",bottom);
+        f.add("North",top);
         f.setSize(295, 450);
         f.setVisible(true);
     }
+    @Override
+    public double display(){
+    this.jta.append("HelloWorld ");
+    System.out.println(this.value);
+    return this.value;
+    }
+    @Override 
+    public void clear(){
+        this.value = 0;
+        this.keep =0;
+    }
 }
 
-//the Action Listener for all the buttons in the CalculatorFrame
-class CalcButtonListener implements ActionListener{
+//the Action Listener for all the number buttons in the CalculatorFrame
+class CalcNumButtonListener implements ActionListener{
     Calculator c ;
-    public CalcButtonListener(Calculator c){
+    public CalcNumButtonListener(Calculator c){
     this.c = c;
     }
     @Override
     public void actionPerformed(ActionEvent e){
       String s = e.getActionCommand();
-      char ch = s.charAt(0);
       Double i ;
-        try {
-        i = Double.parseDouble(s);
-        c.digit(i);
-        } catch (NumberFormatException f) {
+        i = Double.valueOf(s);
+        this.c.digit(i);
+        this.c.display();
 
-        }
-       if(ch=='+'&&c.CC2>=1){
-        c.add();
+}
+}
+class CalcOpButtonListener implements ActionListener{
+    Calculator c;
+    public CalcOpButtonListener (Calculator calc){
+    this.c = calc;
+    }
+    @Override
+    public void actionPerformed(ActionEvent e){
+        char ch = e.getActionCommand().charAt(0);
+        System.out.println(ch);
+    if(ch=='+'&&c.CC2>=1){
+        this.c.add();
         
       }else if(ch=='*'){
-       c.multiply();
+       this.c.multiply();
         
       }else if(ch=='/'){
-       c.divide();
+       this.c.divide();
         
       }else if(ch=='˜'){
-        c.squareOf();
+        this.c.squareOf();
         
       }else if(ch=='-'){
-        c.subtract();
+        this.c.subtract();
         
       }else if(ch=='e'){
-        c.exit();
+        this.c.exit();
         System.exit(0);
       }
       else if(ch=='='){
-        c.compute();
-        c.display();
+        this.c.compute();
+        this.c.display();
+        this.c.clear();
+      }
+      else if (ch=='C'){
+      this.c.clear();
       }
     }
 }
