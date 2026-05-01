@@ -8,14 +8,17 @@ public class Calculator{
     public char toDo ;
     public int CC=0 ;
     public int CC2=0;
-    public int CC3=0; 
-
+    public double CC3=0; 
+    int CC4;
     public void binaryOperations(char op){
         keep = value;
         value = 0;
         this.toDo=op;
         this.CC3++;
         this.CC2++;
+    }
+    public void decimalPoint(){
+        this.CC4++;
     }
     public void add (){
         this.binaryOperations('+');
@@ -41,7 +44,13 @@ public class Calculator{
         System.out.println("Cleared and restarting the calculator.");
     }
     public void digit(double x){
+        if(this.CC4==0){
         this.value = (this.value*10)+x;
+        }else if(this.CC4>0){
+            Double digitAfterPoint = Math.pow(10,this.CC4);
+            this.value = this.value+(x/digitAfterPoint);
+            this.CC4++;
+        }
     }
 
     public void compute(){
@@ -129,46 +138,51 @@ class CalculatorFrame extends Calculator {
         public void go(){
 
         //all required variable declarations
-         Calculator c = new CalculatorFrame();
+          Calculator c = new CalculatorFrame();
 
-         //The components
-         JFrame f = new JFrame();
-         JButton b;                    
-         JPanel bottom = new JPanel();
-         JPanel top = new JPanel();
-         this.jta.setEditable(true);
-        this.jta.append("HelloWorld");
+          //The components
+          JFrame f = new JFrame();
+          JButton b;                    
+          JPanel bottom = new JPanel();
+          JPanel top = new JPanel();
+          this.jta.setEditable(true);
+          this.jta.append("HelloWorld");
 
-         //The Listeners
-         CalcOpButtonListener cobl = new CalcOpButtonListener(c);
-         CalcNumButtonListener cnbl = new CalcNumButtonListener(c);
+          //The Listeners
+          CalcOpButtonListener cobl = new CalcOpButtonListener(c);
+          CalcNumButtonListener cnbl = new CalcNumButtonListener(c);
 
-         //the upcoming methods :-
-        top.add("North",jta);
-        GridLayout mgr = new GridLayout(4,5);
-         bottom.setLayout(mgr);
-         for(int i =9;i>=0;i--){
+          //the upcoming methods :-
+          top.add("North",jta);
+          GridLayout mgr = new GridLayout(4,5);
+          bottom.setLayout(mgr);
+          for(int i =9;i>=0;i--){
             b= new JButton(Integer.toString(i));b.setActionCommand(Integer.toString(i));
             b.addActionListener(cnbl);
             bottom.add("West",b);
-         }
-         b=new JButton("C");b.setActionCommand("C");b.addActionListener(cobl);bottom.add(b);
-         b= new JButton("=");b.setActionCommand("=");b.addActionListener(cobl);bottom.add("East",b);
-         b= new JButton("+");b.setActionCommand("+");b.addActionListener(cobl);bottom.add(b);
-         b= new JButton("-");b.setActionCommand("-");b.addActionListener(cobl);bottom.add(b);
-         b= new JButton("*");b.setActionCommand("*");b.addActionListener(cobl);bottom.add(b);
-         b= new JButton("/");b.setActionCommand("/");b.addActionListener(cobl);bottom.add(b);
-         b= new JButton("e");b.setActionCommand("e");b.addActionListener(cobl);bottom.add(b);
+          }
+          b= new JButton("C");b.setActionCommand("C");b.addActionListener(cobl);bottom.add(b);
+          b= new JButton("=");b.setActionCommand("=");b.addActionListener(cobl);bottom.add(b);
+          b= new JButton("+");b.setActionCommand("+");b.addActionListener(cobl);bottom.add(b);
+          b= new JButton("-");b.setActionCommand("-");b.addActionListener(cobl);bottom.add(b);
+          b= new JButton("*");b.setActionCommand("*");b.addActionListener(cobl);bottom.add(b);
+          b= new JButton("/");b.setActionCommand("/");b.addActionListener(cobl);bottom.add(b);
+          b= new JButton("e");b.setActionCommand("e");b.addActionListener(cobl);bottom.add(b);
+          b= new JButton(".");b.setActionCommand(".");b.addActionListener(cobl);bottom.add(b);
          bottom.setSize(295,285);
-        f.add("South",bottom);
-        f.add("North",top);
-        f.setSize(295, 450);
-        f.setVisible(true);
+         f.add("South",bottom);
+         f.add("North",top);
+         f.setSize(295, 450);
+         f.setVisible(true);
     }
     @Override
     public double display(){
-    this.jta.append("HelloWorld ");
-    System.out.println(this.value);
+    if (this.CC4==0){
+          int i = (int) this.value;
+    System.out.println(i);
+    }else if(this.CC4>0){
+        System.out.println(this.value);
+    }
     return this.value;
     }
     @Override 
@@ -218,7 +232,10 @@ class CalcOpButtonListener implements ActionListener{
       }else if(ch=='-'){
         this.c.subtract();
         
-      }else if(ch=='e'){
+      }else if(ch=='.'){
+        this.c.decimalPoint();
+      }
+      else if(ch=='e'){
         this.c.exit();
         System.exit(0);
       }
