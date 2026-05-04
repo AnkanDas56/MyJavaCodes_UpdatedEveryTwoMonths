@@ -1,5 +1,5 @@
-import java.awt.*;
 import java.awt.event.*;
+import java.awt.*;
 import javax.swing.*;
 import java.util.*;
 
@@ -11,8 +11,8 @@ public class Calculator{
     public double CC3=0; 
     int CC4;
     public void binaryOperations(char op){
-        keep = value;
-        value = 0;
+        this.keep = this.value;
+        this.value = 0;
         this.toDo=op;
         this.CC3++;
         this.CC2++;
@@ -74,7 +74,7 @@ public class Calculator{
     }
     else if(toDo == 'e'){
         System.exit(0);
-    return;
+        return;
     }
 }
     public double display(){
@@ -150,7 +150,7 @@ class CalculatorFrame extends Calculator {
 
           //The Listeners
           CalcOpButtonListener cobl = new CalcOpButtonListener(c);
-          CalcNumButtonListener cnbl = new CalcNumButtonListener(c);
+          CalcNumButtonListener cnbl = new CalcNumButtonListener(c,cobl);
 
           //the upcoming methods :-
           top.add("North",jta);
@@ -159,7 +159,7 @@ class CalculatorFrame extends Calculator {
           for(int i =9;i>=0;i--){
             b= new JButton(Integer.toString(i));b.setActionCommand(Integer.toString(i));
             b.addActionListener(cnbl);
-            bottom.add("West",b);
+            bottom.add(b);
           }
           b= new JButton("C");b.setActionCommand("C");b.addActionListener(cobl);bottom.add(b);
           b= new JButton("=");b.setActionCommand("=");b.addActionListener(cobl);bottom.add(b);
@@ -170,6 +170,10 @@ class CalculatorFrame extends Calculator {
           b= new JButton("e");b.setActionCommand("e");b.addActionListener(cobl);bottom.add(b);
           b= new JButton(".");b.setActionCommand(".");b.addActionListener(cobl);bottom.add(b);
          bottom.setSize(295,285);
+         Color col = Color.darkGray;
+         bottom.setBackground(col);
+         top.setBackground(col);
+         f.setBackground(Color.BLACK);
          f.add("South",bottom);
          f.add("North",top);
          f.setSize(295, 450);
@@ -189,27 +193,37 @@ class CalculatorFrame extends Calculator {
     public void clear(){
         this.value = 0;
         this.keep =0;
+        this.CC4 = 0;
     }
 }
 
 //the Action Listener for all the number buttons in the CalculatorFrame
 class CalcNumButtonListener implements ActionListener{
     Calculator c ;
-    public CalcNumButtonListener(Calculator c){
+    CalcOpButtonListener cobl;
+    public CalcNumButtonListener(Calculator c, CalcOpButtonListener opl){
     this.c = c;
+    this.cobl = opl;
     }
     @Override
     public void actionPerformed(ActionEvent e){
       String s = e.getActionCommand();
       Double i ;
+      if(!this.cobl.alreadyOnOperation){
         i = Double.valueOf(s);
         this.c.digit(i);
         this.c.display();
+      }else if (this.cobl.alreadyOnOperation){
+        i = Double.valueOf(s);
+       this.c.digit(i*-1);
+       this.c.display();
+      }
 
 }
 }
 class CalcOpButtonListener implements ActionListener{
     Calculator c;
+    protected boolean alreadyOnOperation = false;
     public CalcOpButtonListener (Calculator calc){
     this.c = calc;
     }
@@ -217,21 +231,27 @@ class CalcOpButtonListener implements ActionListener{
     public void actionPerformed(ActionEvent e){
         char ch = e.getActionCommand().charAt(0);
         System.out.println(ch);
-    if(ch=='+'&&c.CC2>=1){
+    if(ch=='+'){
         this.c.add();
-        
+        alreadyOnOperation = true;
       }else if(ch=='*'){
        this.c.multiply();
-        
+        alreadyOnOperation = true;
       }else if(ch=='/'){
        this.c.divide();
+       alreadyOnOperation = true;
         
       }else if(ch=='˜'){
         this.c.squareOf();
+        this.alreadyOnOperation = true;
         
       }else if(ch=='-'){
+        if(!alreadyOnOperation){
         this.c.subtract();
-        
+        alreadyOnOperation = true;
+        }
+        else if (alreadyOnOperation){   
+        }
       }else if(ch=='.'){
         this.c.decimalPoint();
       }
@@ -243,9 +263,11 @@ class CalcOpButtonListener implements ActionListener{
         this.c.compute();
         this.c.display();
         this.c.clear();
+        this.alreadyOnOperation = false;
       }
       else if (ch=='C'){
       this.c.clear();
+      this.alreadyOnOperation = false;
       }
     }
 }
