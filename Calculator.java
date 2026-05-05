@@ -256,6 +256,7 @@ class CalcOpButtonListener implements ActionListener{
         this.c.decimalPoint();
       }
       else if(ch=='e'){
+        this.alreadyOnOperation = false;
         this.c.exit();
         System.exit(0);
       }
