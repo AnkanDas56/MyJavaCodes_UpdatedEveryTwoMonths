@@ -47,8 +47,9 @@ public class Calculator{
         if(this.CC4==0){
         this.value = (this.value*10)+x;
         }else if(this.CC4>0){
-            Double digitAfterPoint = Math.pow(10,this.CC4);
-            this.value = this.value+(x/digitAfterPoint);
+            double digitAfterPoint = Math.pow(10,this.CC4);
+            double numsAfterPoint = x/digitAfterPoint;
+            this.value = this.value+numsAfterPoint;
             this.CC4++;
         }
     }
@@ -126,7 +127,7 @@ public void go() {
 
    //the final line of code in the calculator class the main method
    public static void main(String[] args) {
-    Calculator cf = new CalculatorFrame();
+    Calculator cf = new Calculator();
     cf.go();
        }
    }
@@ -169,6 +170,7 @@ class CalculatorFrame extends Calculator {
           b= new JButton("/");b.setActionCommand("/");b.addActionListener(cobl);bottom.add(b);
           b= new JButton("e");b.setActionCommand("e");b.addActionListener(cobl);bottom.add(b);
           b= new JButton(".");b.setActionCommand(".");b.addActionListener(cobl);bottom.add(b);
+          b = new JButton("Sq");b.setActionCommand("˜");b.addActionListener(cobl);bottom.add(b);
          bottom.setSize(295,285);
          Color col = Color.darkGray;
          bottom.setBackground(col);
