@@ -56,22 +56,22 @@ public class Calculator{
 
     public void compute(){
     if (this.toDo == '+'){
-        value = keep + value;
+        this.value = this.keep + this.value;
     }
     else if (this.toDo == '-'){
-        value = keep - value;
+        this.value = this.keep - this.value;
     }
     else if (this.toDo == '*'){
-        value = keep * value; 
+        this.value = this.keep * this.value; 
     }
     else if (this.toDo == '/'){
-        value = keep / value;
+        this.value = this.keep / this.value;
     }
     else if( this.toDo == '˜'){
-        value = keep*keep;
+        this.value = this.keep*this.keep;
     }
-    else if( this.toDo=='!'){
-        clear();
+    else if( this.toDo=='c'){
+        this.clear();
     }
     else if(toDo == 'e'){
         System.exit(0);
@@ -127,7 +127,7 @@ public void go() {
 
    //the final line of code in the calculator class the main method
    public static void main(String[] args) {
-    Calculator cf = new Calculator();
+    Calculator cf = new CalculatorFrame();
     cf.go();
        }
    }
@@ -179,6 +179,8 @@ class CalculatorFrame extends Calculator {
          f.add("South",bottom);
          f.add("North",top);
          f.setSize(295, 450);
+         this.jta.setEditable(true);
+         this.jta.setText("Start");
          f.setVisible(true);
     }
     @Override
@@ -211,14 +213,14 @@ class CalcNumButtonListener implements ActionListener{
     public void actionPerformed(ActionEvent e){
       String s = e.getActionCommand();
       Double i ;
-      if(!this.cobl.alreadyOnOperation){
-        i = Double.valueOf(s);
-        this.c.digit(i);
-        this.c.display();
-      }else if (this.cobl.alreadyOnOperation){
+      if (this.cobl.alreadyOnOperation&&this.c.toDo=='-'){
         i = Double.valueOf(s);
        this.c.digit(i*-1);
        this.c.display();
+      } else{
+         i = Double.valueOf(s);
+         this.c.digit(i);
+         this.c.display();
       }
 
 }
@@ -248,12 +250,8 @@ class CalcOpButtonListener implements ActionListener{
         this.alreadyOnOperation = true;
         
       }else if(ch=='-'){
-        if(!alreadyOnOperation){
-        this.c.subtract();
-        alreadyOnOperation = true;
-        }
-        else if (alreadyOnOperation){   
-        }
+      if(alreadyOnOperation){
+      }
       }else if(ch=='.'){
         this.c.decimalPoint();
       }

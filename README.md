@@ -11,3 +11,6 @@ I am planning to Start these following Projects in java
 # 28/04/2026
  Now, I have concluded that I will not create any other folder for my projects because, the root JavaCodes directory
  is the directory for all my projects and any lesson or other type of project will be placed in other 
+ # 07/05/2026
+ Today, I created a new LoginSystem project Not Complete, but yeah
+ check this out in the bugFixer to just view and giveYourOpinion to edit and giveYourOpinion
