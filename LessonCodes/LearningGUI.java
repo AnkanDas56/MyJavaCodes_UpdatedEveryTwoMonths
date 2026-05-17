@@ -1,17 +1,24 @@
-import java.awt.*;
+import java.awt.Choice;
+import java.awt.Color;
+import javax.swing.*;
+import java.awt.event.*;
 public class LearningGUI {
-Frame f;
 public static void main(String[] args){
- LearningGUI lg = new LearningGUI();
- lg.f = new Frame("First");
- lg.f.setSize(1080,1920);
- lg.f.setVisible(true);
- Checkbox cb = new Checkbox("New Checkbox");
- cb.setLocation(10,512);
- Button b = new Button("Click Me");
- b.setSize(256,256);
- b.setLocation(30, 30);
- lg.f.add(b);
- lg.f.add(cb);
+Choice c = new Choice();
+c.add("Orange");
+c.add("Apple");
+c.add("Banana");
+c.add("Papaya");
+c.setBackground(Color.BLACK);
+c.setForeground(Color.GREEN);
+JFrame f = new JFrame();
+JTextArea jta = new JTextArea(20,10);
+jta.setBackground(Color.BLACK);
+jta.setForeground(Color.GREEN);
+jta.setEditable(true);
+f.add(jta);
+f.add(c,"North");
+f.setBackground(Color.BLACK);
+f.setVisible(true);
 }
 }

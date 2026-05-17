@@ -1,5 +1,6 @@
 import java.awt.event.*;
 import java.awt.*;
+import java.lang.classfile.instruction.ThrowInstruction;
 import javax.swing.*;
 import java.util.*;
 
@@ -91,7 +92,7 @@ public class Calculator{
         char op0 = sc3.next().charAt(0);
 
         Scanner sc2 = new Scanner(System.in);  
-        double m2 = sc.nextDouble();
+        double m2 = sc2.nextDouble();
        
     
         this.digit(m1);        
@@ -134,27 +135,21 @@ public void go() {
 
 
 class CalculatorFrame extends Calculator {
-        JTextArea jta = new JTextArea(3,90);
-
+        JTextArea jta = new JTextArea(3,50);
+     
         public void go(){
-
-        //all required variable declarations
-          Calculator c = new CalculatorFrame();
-
           //The components
           JFrame f = new JFrame();
           JButton b;                    
           JPanel bottom = new JPanel();
-          JPanel top = new JPanel();
           this.jta.setEditable(true);
-          this.jta.append("HelloWorld");
+          this.jta.setText("click on a button to get started."+"\n"+" press C to clear");
 
           //The Listeners
-          CalcOpButtonListener cobl = new CalcOpButtonListener(c);
-          CalcNumButtonListener cnbl = new CalcNumButtonListener(c,cobl);
+          CalcOpButtonListener cobl = new CalcOpButtonListener(this);
+          CalcNumButtonListener cnbl = new CalcNumButtonListener(this,cobl);
 
           //the upcoming methods :-
-          top.add("North",jta);
           GridLayout mgr = new GridLayout(4,5);
           bottom.setLayout(mgr);
           for(int i =9;i>=0;i--){
@@ -172,15 +167,16 @@ class CalculatorFrame extends Calculator {
           b= new JButton(".");b.setActionCommand(".");b.addActionListener(cobl);bottom.add(b);
           b = new JButton("Sq");b.setActionCommand("˜");b.addActionListener(cobl);bottom.add(b);
          bottom.setSize(295,285);
-         Color col = Color.darkGray;
-         bottom.setBackground(col);
-         top.setBackground(col);
-         f.setBackground(Color.BLACK);
+         bottom.setBackground(Color.BLACK);
+         f.setBackground(Color.DARK_GRAY);
          f.add("South",bottom);
-         f.add("North",top);
+         f.add(this.jta);
          f.setSize(295, 450);
          this.jta.setEditable(true);
-         this.jta.setText("Start");
+         Font font = new Font(Font.SANS_SERIF,20,18);
+         this.jta.setFont(font);
+         this.jta.setForeground(Color.WHITE);
+         this.jta.setBackground(Color.BLACK);
          f.setVisible(true);
     }
     @Override
@@ -191,6 +187,8 @@ class CalculatorFrame extends Calculator {
     }else if(this.CC4>0){
         System.out.println(this.value);
     }
+    this.jta.setText(null);
+    this.jta.setText(Double.toString(this.value));
     return this.value;
     }
     @Override 
@@ -198,14 +196,15 @@ class CalculatorFrame extends Calculator {
         this.value = 0;
         this.keep =0;
         this.CC4 = 0;
+        this.jta.setText(null);
     }
 }
 
 //the Action Listener for all the number buttons in the CalculatorFrame
 class CalcNumButtonListener implements ActionListener{
-    Calculator c ;
+    CalculatorFrame c ;
     CalcOpButtonListener cobl;
-    public CalcNumButtonListener(Calculator c, CalcOpButtonListener opl){
+    public CalcNumButtonListener(CalculatorFrame c, CalcOpButtonListener opl){
     this.c = c;
     this.cobl = opl;
     }
@@ -222,13 +221,12 @@ class CalcNumButtonListener implements ActionListener{
          this.c.digit(i);
          this.c.display();
       }
-
 }
 }
 class CalcOpButtonListener implements ActionListener{
-    Calculator c;
+    CalculatorFrame c;
     protected boolean alreadyOnOperation = false;
-    public CalcOpButtonListener (Calculator calc){
+    public CalcOpButtonListener (CalculatorFrame calc){
     this.c = calc;
     }
     @Override
@@ -250,8 +248,7 @@ class CalcOpButtonListener implements ActionListener{
         this.alreadyOnOperation = true;
         
       }else if(ch=='-'){
-      if(alreadyOnOperation){
-      }
+      this.c.subtract();
       }else if(ch=='.'){
         this.c.decimalPoint();
       }
@@ -263,12 +260,17 @@ class CalcOpButtonListener implements ActionListener{
       else if(ch=='='){
         this.c.compute();
         this.c.display();
-        this.c.clear();
+        this.c.toDo = 0;
         this.alreadyOnOperation = false;
       }
       else if (ch=='C'){
+      
       this.c.clear();
       this.alreadyOnOperation = false;
       }
+      if(ch!='='){
+      this.c.jta.setText(null);
+      this.c.jta.setText(Character.toString(ch));
     }
+}
 }
