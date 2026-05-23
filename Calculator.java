@@ -1,6 +1,5 @@
 import java.awt.event.*;
 import java.awt.*;
-import java.lang.classfile.instruction.ThrowInstruction;
 import javax.swing.*;
 import java.util.*;
 
@@ -10,7 +9,7 @@ public class Calculator{
     public int CC=0 ;
     public int CC2=0;
     public double CC3=0; 
-    int CC4;
+    public double CC4=0;
     public void binaryOperations(char op){
         this.keep = this.value;
         this.value = 0;
@@ -161,11 +160,11 @@ class CalculatorFrame extends Calculator {
           b= new JButton("=");b.setActionCommand("=");b.addActionListener(cobl);bottom.add(b);
           b= new JButton("+");b.setActionCommand("+");b.addActionListener(cobl);bottom.add(b);
           b= new JButton("-");b.setActionCommand("-");b.addActionListener(cobl);bottom.add(b);
-          b= new JButton("*");b.setActionCommand("*");b.addActionListener(cobl);bottom.add(b);
-          b= new JButton("/");b.setActionCommand("/");b.addActionListener(cobl);bottom.add(b);
+          b= new JButton("x");b.setActionCommand("*");b.addActionListener(cobl);bottom.add(b);
+          b= new JButton("÷");b.setActionCommand("/");b.addActionListener(cobl);bottom.add(b);
           b= new JButton("e");b.setActionCommand("e");b.addActionListener(cobl);bottom.add(b);
           b= new JButton(".");b.setActionCommand(".");b.addActionListener(cobl);bottom.add(b);
-          b = new JButton("Sq");b.setActionCommand("˜");b.addActionListener(cobl);bottom.add(b);
+          b=new JButton("Sq");b.setActionCommand("˜");b.addActionListener(cobl);bottom.add(b);
          bottom.setSize(295,285);
          bottom.setBackground(Color.BLACK);
          f.setBackground(Color.DARK_GRAY);
@@ -173,20 +172,14 @@ class CalculatorFrame extends Calculator {
          f.add(this.jta);
          f.setSize(295, 450);
          this.jta.setEditable(true);
-         Font font = new Font(Font.SANS_SERIF,20,18);
+         Font font = new Font(Font.SANS_SERIF,20,15);
          this.jta.setFont(font);
-         this.jta.setForeground(Color.WHITE);
+         this.jta.setForeground(Color.green);
          this.jta.setBackground(Color.BLACK);
          f.setVisible(true);
     }
     @Override
     public double display(){
-    if (this.CC4==0){
-          int i = (int) this.value;
-    System.out.println(i);
-    }else if(this.CC4>0){
-        System.out.println(this.value);
-    }
     this.jta.setText(null);
     this.jta.setText(Double.toString(this.value));
     return this.value;
@@ -232,23 +225,26 @@ class CalcOpButtonListener implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e){
         char ch = e.getActionCommand().charAt(0);
-        System.out.println(ch);
     if(ch=='+'){
         this.c.add();
+        this.c.CC4 = 0;
         alreadyOnOperation = true;
       }else if(ch=='*'){
        this.c.multiply();
+       this.c.CC4 =0;
         alreadyOnOperation = true;
       }else if(ch=='/'){
        this.c.divide();
        alreadyOnOperation = true;
-        
+        this.c.CC4 =0;
       }else if(ch=='˜'){
+        this.c.CC4 =0;
         this.c.squareOf();
         this.alreadyOnOperation = true;
         
       }else if(ch=='-'){
       this.c.subtract();
+      this.c.CC4 =0;
       }else if(ch=='.'){
         this.c.decimalPoint();
       }
@@ -262,9 +258,10 @@ class CalcOpButtonListener implements ActionListener{
         this.c.display();
         this.c.toDo = 0;
         this.alreadyOnOperation = false;
+        this.c.CC4 =0;
       }
       else if (ch=='C'){
-      
+      this.c.CC4 =0;
       this.c.clear();
       this.alreadyOnOperation = false;
       }
