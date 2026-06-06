@@ -1,9 +1,9 @@
-import JavaCodes.IntToChar;
+import java.time.LocalTime;
 import java.util.Scanner;
 
 class OnlineServer {
     public static void main(String[] args) {
-        double d = 24,D;
-    IntToChar<Long> itc = new IntToChar<>(new Scanner(System.in).nextLong());
+     LocalTime t = LocalTime.of(12,45,21,70);
+     System.out.println(t);
     }
 }

@@ -5,9 +5,7 @@
 By now I have Completed the GUI of the Calculator and thinking of creating a new Folder 📁 for my projects
 I am planning to Start these following Projects in java 
 - Banking System with Login System , backend and am thinking to use SQL to create the backend
-- 
--
--
+
 # 28/04/2026
  Now, I have concluded that I will not create any other folder for my projects because, the root JavaCodes directory
  is the directory for all my projects and any lesson or other type of project will be placed in other 
