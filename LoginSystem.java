@@ -1,6 +1,10 @@
+import java.awt.GridLayout;
+import java.awt.LayoutManager;
 import java.io.*;
 import java.util.*;
+
 import javax.swing.*;
+
 import java.awt.event.*;
   // I would use Other collection frameWorks if it were a search System
 class LoginSystem extends LinkedHashMap<String, String>{
@@ -28,10 +32,10 @@ class LoginSystem extends LinkedHashMap<String, String>{
   return this.UserList.values().toString();
   }
   public boolean loginByPassword(String Password,String UserName){
-   if(this.UserList.get(Password).hashCode()==UserName.hashCode()) return true; // the user could get in by typing in the Password
+   if(this.UserList.get(Password)!=null&&this.UserList.get(Password).hashCode()==UserName.hashCode()) return true; // the user could get in by typing in the Password
    else return false;
   }
-  public static void main(String[] args)throws  IOException {
+  public static void main(String[] args){
     LogInSystemGUI logSys = new LogInSystemGUI();
    PrintStream os = new PrintStream(System.out);
    Scanner sc= new Scanner(System.in);
@@ -39,26 +43,37 @@ class LoginSystem extends LinkedHashMap<String, String>{
    Person p2 = new Person("Johnny","None","Look at my UserName, You will understand by yourself");
    logSys.addUser(p1);
    logSys.addUser(p2);
-   os.println(Boolean.toString(logSys.loginByPassword(sc.next(),"Johnny")));
    logSys.go();
   }
 }
 
 
-class LogInSystemGUI extends LoginSystem{
+class LogInSystemGUI extends LoginSystem implements ActionListener{
+ Runnable r;
+ @SuppressWarnings("static-access")
  public void go(){
-JFrame f = new JFrame("Login");
-
-JTextArea UNArea = new JTextArea("Enter Your UserName");
-JTextArea PArea = new JTextArea("Enter Your Password");
-f.add(UNArea);
-f.add(PArea);
-f.setVisible(true);
-Runnable r = () -> this.loginByPassword(PArea.getText(),UNArea.getText());
-Thread t = new Thread(r);
-t.start();
+  JFrame f = new JFrame("Login");
+  JTextArea UNArea = new JTextArea("Enter Your UserName");
+  LayoutManager mgr = new GridLayout(1, 200);
+  UNArea.setLayout(mgr);
+  JTextArea PArea = new JTextArea("Enter Your Password");
+  PArea.setLayout(mgr);
+  JPanel p = new JPanel(new GridLayout(3, 1));
+  p.add(UNArea,"North");
+  p.add(PArea,"South");
+  JButton b = new JButton("Login");b.addActionListener(this);
+  p.add(b);
+  f.add(p);
+  f.setVisible(true);
+  this.r = () -> System.out.println(this.loginByPassword(PArea.getText(),UNArea.getText()));
 
  }
+
+public void actionPerformed(ActionEvent e){
+Thread t = new Thread(this.r);
+t.start();
+}
+
 }
 record Person(String UserName,String Password,String bio) implements Comparable<Person>{
    @Override
