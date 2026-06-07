@@ -39,7 +39,7 @@ class LoginSystem extends LinkedHashMap<String, String>{
     LogInSystemGUI logSys = new LogInSystemGUI();
    PrintStream os = new PrintStream(System.out);
    Scanner sc= new Scanner(System.in);
-   Person p1 = new Person("AnkanDas56","ankandas@12","Hello, I am Ankan Das, a 12 y/o java developer aspiring a full stack developer seat in Facbook , Google, Amazon or ,Apple (most wanted co. is Apple)");
+   Person p1 = new Person("AnkanDas56","AnkuBanku","Hello, I am Ankan Das, a 12 y/o java developer aspiring a full stack developer seat in Facbook , Google, Amazon or ,Apple (most wanted co. is Apple)");
    Person p2 = new Person("Johnny","None","Look at my UserName, You will understand by yourself");
    logSys.addUser(p1);
    logSys.addUser(p2);
