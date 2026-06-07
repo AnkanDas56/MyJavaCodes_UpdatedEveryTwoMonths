@@ -1,3 +1,5 @@
+package LessonCodes;
+
 class PTest{
   public static void main(String[] args) {
      var one = new Person("Joseph",25, 12987421);//we can use var for any type 
