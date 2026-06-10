@@ -1,4 +1,4 @@
 {
-    "jdk.advanced.disable.nbjavac": false,
-    "CodeGPT.apiKey": "Ollama"
+  "jdk.advanced.disable.nbjavac": false,
+  "CodeGPT.apiKey": "Ollama"
 }
