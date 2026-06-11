@@ -1,18 +1,14 @@
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.GridLayout;
-import java.awt.LayoutManager;
-import java.io.*;
-import java.util.*;
-
 import javax.swing.*;
-
-import java.awt.event.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.PrintStream;
+import java.util.LinkedHashMap;
+import java.util.Scanner;
 
 // I would use Other collection frameWorks if it were a search System
 class LoginSystem extends LinkedHashMap<String, String> {
     private LinkedHashMap<String, String> UserList = new LinkedHashMap<>();
-
     @Override
     public String toString() {
         String s = this.UserList.values().toString();
@@ -60,9 +56,11 @@ class LoginSystem extends LinkedHashMap<String, String> {
 class LogInSystemGUI extends LoginSystem implements ActionListener {
     Runnable r;
     JPanel p = new JPanel(new GridLayout(3, 1));
-    @SuppressWarnings("static-access")
+    //The ones above were Variable declarations and the declatations coming below are methods
+
     JTextArea PArea = new JTextArea("Enter Your Password");
     JTextArea UNArea = new JTextArea("Enter Your UserName");
+
     public void go() {
         JFrame f = new JFrame("Login");
         f.setBackground(Color.black);
@@ -80,8 +78,11 @@ class LogInSystemGUI extends LoginSystem implements ActionListener {
         this.p.setBackground(Color.black);
         f.setBackground(Color.black);
         f.setVisible(true);
-        this.r = () -> UNArea.setText(Boolean.toString(this.loginByPassword(this.PArea.getText(), this.UNArea.getText())));
-
+        this.r = () -> this.UNArea.setText(Boolean.toString(this.loginByPassword(this.PArea.getText(), this.UNArea.getText())));
+        if(this.loginByPassword(this.PArea.getText(),this.UNArea.getText())){
+            this.UNArea.setText("Welcome "+UNArea.getText()+" to your account");
+            this.p.remove(b);
+        }
     }
 
     @Override
@@ -89,6 +90,7 @@ class LogInSystemGUI extends LoginSystem implements ActionListener {
         Thread t = Thread.ofVirtual().start(this.r);
         this.p.remove(this.PArea);
         this.UNArea.setEditable(false);
+
     }
 
 }

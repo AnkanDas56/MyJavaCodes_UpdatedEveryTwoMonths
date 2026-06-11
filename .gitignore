@@ -1,3 +1,5 @@
 *.class
 .vscode
 .idea
+JavaCodes.iml
+target.generated-sources.annotations
