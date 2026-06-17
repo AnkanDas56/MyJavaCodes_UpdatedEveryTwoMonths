@@ -40,7 +40,7 @@ class LoginSystem extends LinkedHashMap<String, String> {
         else return false;
     }
 
-    public static void main(String[] args) {
+    static void main(String[] args) {
         LogInSystemGUI logSys = new LogInSystemGUI();
         PrintStream os = new PrintStream(System.out);
         Scanner sc = new Scanner(System.in);
@@ -48,7 +48,7 @@ class LoginSystem extends LinkedHashMap<String, String> {
         Person p2 = new Person("Johnny", "None", "Look at my UserName, You will understand by yourself");
         logSys.addUser(p1);
         logSys.addUser(p2);
-        logSys.go();
+
     }
 }
 

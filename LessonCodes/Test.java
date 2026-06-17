@@ -1,5 +1,3 @@
-package New;
-
 public class Test {
     public static String A = "hello";
 

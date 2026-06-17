@@ -3,3 +3,8 @@
 .idea
 JavaCodes.iml
 target.generated-sources.annotations
+*.jar
+LoginSystemBackend/
+LoginSystemBackend/src/main
+LoginSystemBackend/*.xml
+LoginSystemBackend/.
