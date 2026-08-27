@@ -1,9 +1,10 @@
-import java.util.*;
+package DSALessons;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Scanner;
 
 import static java.lang.System.out;
-
-import java.lang.classfile.AnnotationValue;
-import java.util.Comparator;
 
 class Song {
     @Override
